@@ -1,0 +1,127 @@
+:root {
+    --bg-color: #000000;
+    --card-bg: #1c1c1e;
+    --input-bg: #2c2c2e;
+    --text-main: #ffffff;
+    --text-dim: #aeaeb2;
+    --accent: #0a84ff;
+    --success: #30d158;
+    --danger: #ff453a;
+    --warning: #ffd60a;
+    --border-color: #3a3a3c;
+    --header-height: 55px;
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
+
+body {
+    font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg-color);
+    color: var(--text-main);
+    line-height: 1.4;
+    overflow-x: hidden;
+    padding-top: var(--header-height);
+}
+
+.container { max-width: 600px; margin: 0 auto; padding: 20px; }
+.hidden { display: none !important; }
+
+.main-header, .sub-header {
+    background: rgba(28,28,30,0.85);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    position: fixed;
+    top:0; left:0; width:100%;
+    z-index:1000;
+    border-bottom:0.5px solid var(--border-color);
+}
+
+.header-content, .sub-header-content {
+    height: var(--header-height);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding:0 16px;
+}
+
+.main-header h1 { font-size:19px; font-weight:700; }
+.sub-header h2 { font-size:17px; font-weight:600; }
+
+.intro-cards-container { display:flex; flex-direction:column; gap:12px; margin-bottom:30px; }
+.intro-card {
+    background:var(--card-bg);
+    border:0.5px solid var(--border-color);
+    border-radius:20px;
+    padding:16px;
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+.intro-icon-wrapper { width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:24px; }
+.intro-icon-wrapper.blue { background: rgba(10,132,255,0.15); color:#0a84ff; }
+.intro-icon-wrapper.orange { background: rgba(255,159,10,0.15); color:#ff9f0a; }
+.intro-icon-wrapper.green { background: rgba(48,209,88,0.15); color:#30d158; }
+
+.lesson-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
+.lesson-card {
+    background: var(--card-bg);
+    border-radius:18px;
+    padding:20px;
+    display:flex;
+    flex-direction:column;
+    height:120px;
+    cursor:pointer;
+    box-shadow:0 4px 15px rgba(0,0,0,0.4);
+}
+.lesson-icon { font-size:30px; margin-bottom:auto; }
+.lesson-title { font-size:17px; font-weight:700; }
+
+.card-container { background: var(--card-bg); border-radius:18px; padding:18px; margin-bottom:25px; border:0.5px solid var(--border-color); }
+.apple-form .form-group { margin-bottom:16px; }
+label { display:block; font-size:14px; color: var(--text-dim); margin-bottom:6px; margin-left:4px; }
+input, select, textarea { background: var(--input-bg); color: var(--text-main); border:none; border-radius:10px; padding:12px; font-size:16px; width:100%; font-family:inherit; }
+textarea { height:100px; resize:none; }
+
+.file-input-wrapper { position:relative; width:100%; overflow:hidden; }
+.file-input-wrapper input[type="file"] { position:absolute; left:0; top:0; width:100%; height:100%; opacity:0; cursor:pointer; z-index:2; }
+
+.apple-primary-btn { background: var(--accent); color:white; padding:14px; border-radius:12px; font-size:17px; font-weight:600; width:100%; border:none; cursor:pointer; }
+.apple-secondary-btn { background: var(--input-bg); color:var(--accent); padding:12px; border-radius:10px; font-size:16px; width:100%; border:none; }
+
+.checkbox-container { display:flex; align-items:center; position:relative; padding-left:30px; cursor:pointer; font-size:16px; }
+.checkbox-container input { position:absolute; opacity:0; cursor:pointer; }
+.checkmark { position:absolute; top:0; left:0; height:22px; width:22px; background-color: var(--input-bg); border-radius:6px; border:1px solid var(--border-color); }
+.checkbox-container input:checked ~ .checkmark { background-color: var(--accent); border-color: var(--accent); }
+.checkmark:after { content:""; position:absolute; display:none; left:7px; top:3px; width:6px; height:11px; border:solid black; border-width:0 2.5px 2.5px 0; transform:rotate(45deg); }
+.checkbox-container input:checked ~ .checkmark:after { display:block; }
+
+.question-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:12px; }
+.questionCard { background:var(--card-bg); border-radius:16px; overflow:hidden; position:relative; border:0.5px solid var(--border-color); }
+.questionCard img { width:100%; height:120px; object-fit:cover; }
+
+.star { position:absolute; top:8px; right:8px; background:rgba(0,0,0,0.6); padding:4px; border-radius:8px; font-size:14px; filter:grayscale(1); opacity:0.3; transition:0.2s; cursor:pointer; }
+.star.active { filter:grayscale(0); opacity:1; }
+
+.answer { padding:12px 10px; font-size:13px; background: rgba(0,0,0,0.3); border-top:0.5px solid var(--border-color); text-align:center; filter:blur(8px); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; transition:all 0.3s ease; }
+.answer.show { filter:blur(0); white-space:normal; overflow:visible; }
+
+.cardButtons { display:grid; grid-template-columns:1fr 1fr; border-top:0.3px solid rgba(255,255,255,0.1); }
+.cardButtons button { padding:14px 5px; font-size:14px; font-weight:400; background:transparent; border:none; cursor:pointer; letter-spacing:-0.2px; }
+.editBtn { color:var(--accent) !important; }
+.deleteBtn { color:var(--danger) !important; border-left:0.3px solid rgba(255,255,255,0.1) !important; }
+.cardButtons button:active { opacity:0.5; }
+
+#editorModal { position:fixed; top:0; left:0; width:100%; height:100%; background:#000; z-index:3000; display:flex; flex-direction:column; }
+.editor-header { height:60px; display:flex; justify-content:space-between; align-items:center; padding:0 16px; border-bottom:0.5px solid #333; }
+.editor-body { flex:1; overflow:hidden; display:flex; align-items:center; justify-content:center; }
+.editor-footer { height:80px; display:flex; justify-content:space-around; align-items:center; padding-bottom:10px; border-top:0.5px solid #333; }
+.editor-tool-btn { background:#1c1c1e; color:white; border:none; padding:10px 15px; border-radius:10px; font-size:14px; }
+.editor-tool-btn.active { background: var(--accent); }
+
+.stats-card p { display:flex; justify-content:space-between; border-bottom:0.5px solid var(--border-color); padding:12px 0; font-size:16px; }
+.back-link { background:transparent; border:none; color:var(--accent); font-size:17px; }
+.icon-btn-text { background:transparent; border:none; color:var(--accent); font-size:16px; }
+
+.pagination{ display:flex; justify-content:center; align-items:center; gap:15px; margin:25px 0; }
+.pagination button{ background:var(--card-bg); border:1px solid var(--border-color); color:var(--text-main); padding:10px 14px; border-radius:10px; font-size:14px; }
+.pagination span{ color:var(--text-dim); font-size:14px; }

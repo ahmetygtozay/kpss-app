@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>KPSS Soru Arşivi</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+</head>
+<body class="apple-dark-theme">
+
+<header class="main-header">
+    <div class="header-content">
+        <h1>KPSS Soru Arşivi</h1>
+        <div class="header-actions">
+            <button class="icon-btn-text" onclick="openStats()">📊 İstatistik</button>
+        </div>
+    </div>
+</header>
+
+<main id="mainPage" class="container main-content">
+    <section class="welcome-section">
+        <div class="intro-cards-container">
+            <div class="intro-card">
+                <div class="intro-icon-wrapper blue">📸</div>
+                <div class="intro-text">
+                    <h4>Soru Biriktir</h4>
+                    <p>Çözemediğin soruları fotoğrafla, arşivine ekle.</p>
+                </div>
+            </div>
+            <div class="intro-card">
+                <div class="intro-icon-wrapper orange">⭐</div>
+                <div class="intro-text">
+                    <h4>Zorları İşaretle</h4>
+                    <p>Yıldızlı sorularla kendine özel deneme listesi yap.</p>
+                </div>
+            </div>
+            <div class="intro-card">
+                <div class="intro-icon-wrapper green">📊</div>
+                <div class="intro-text">
+                    <h4>Gelişimini İzle</h4>
+                    <p>Hangi dersten ne kadar eksiğin var anında gör.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="lesson-section">
+        <h2>Dersler</h2>
+        <div class="lesson-grid">
+            <div class="lesson-card" onclick="openLesson('turkce')"><span class="lesson-icon">📚</span><span class="lesson-title">Türkçe</span></div>
+            <div class="lesson-card" onclick="openLesson('matematik')"><span class="lesson-icon">🧮</span><span class="lesson-title">Matematik</span></div>
+            <div class="lesson-card" onclick="openLesson('tarih')"><span class="lesson-icon">📜</span><span class="lesson-title">Tarih</span></div>
+            <div class="lesson-card" onclick="openLesson('cografya')"><span class="lesson-icon">🌍</span><span class="lesson-title">Coğrafya</span></div>
+            <div class="lesson-card" onclick="openLesson('vatandaslik')"><span class="lesson-icon">⚖️</span><span class="lesson-title">Vatandaşlık</span></div>
+            <div class="lesson-card" onclick="openLesson('guncel')"><span class="lesson-icon">📰</span><span class="lesson-title">Güncel</span></div>
+        </div>
+    </section>
+</main>
+
+<div id="lessonPage" class="hidden">
+    <header class="sub-header">
+        <div class="sub-header-content container">
+            <button class="back-link" onclick="goBack()">← Geri</button>
+            <h2 id="lessonTitle"></h2>
+        </div>
+    </header>
+    <div class="container lesson-content">
+        <section class="add-question-section card-container">
+            <div class="card-header"><h3>Yeni Soru Ekle</h3></div>
+            <div class="apple-form">
+                <div class="form-group">
+                    <label>Konu</label>
+                    <select id="topicInput"></select>
+                </div>
+                <div class="form-group">
+                    <label>Soru Görseli</label>
+                    <div class="file-input-wrapper">
+                        <button class="apple-secondary-btn" id="fileBtnText">Görsel Çek veya Seç</button>
+                        <input type="file" id="imageInput" accept="image/*" onchange="previewImage(this)">
+                    </div>
+                    <div id="imagePreviewContainer" class="hidden" style="margin-top: 10px; text-align: center;">
+                        <img id="imagePreview" src="" style="width: 100px; height: 100px; object-fit: cover; border-radius: 12px; border: 1px solid var(--border-color);">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Cevap/Not</label>
+                    <textarea id="answerInput" placeholder="Notunuzu yazın..."></textarea>
+                </div>
+                <div class="form-group inline-group">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="hardInput"><span class="checkmark"></span> Zor soru
+                    </label>
+                </div>
+                <button id="mainActionBtn" class="apple-primary-btn" onclick="addQuestion()">Soruyu Kaydet</button>
+            </div>
+        </section>
+
+        <section class="filter-section card-container">
+            <div class="card-header"><h3>Soruları Filtrele</h3></div>
+            <div class="apple-form">
+                <div class="filter-controls" style="display: flex; flex-direction: column; gap: 15px;">
+                    <select id="filterTopic" onchange="loadQuestions()"><option value="">Tüm Konular</option></select>
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="filterHard" onchange="loadQuestions()"><span class="checkmark"></span> Sadece Yıldızlı Sorular
+                    </label>
+                </div>
+            </div>
+        </section>
+
+        <div id="questionList" class="question-grid"></div>
+        <div id="paginationControls" class="pagination">
+            <button onclick="prevPage()">← Önceki</button>
+            <span id="pageInfo"></span>
+            <button onclick="nextPage()">Sonraki →</button>
+        </div>
+    </div>
+</div>
+
+<div id="editorModal" class="hidden">
+    <div class="editor-header">
+        <button class="back-link" onclick="closeEditor()">İptal</button>
+        <h3>Düzenle</h3>
+        <button class="icon-btn-text" onclick="applyEdits()">Bitti</button>
+    </div>
+    <div class="editor-body"><img id="editorImage" src=""></div>
+    <div class="editor-footer">
+        <button class="editor-tool-btn" onclick="rotateLeft()">↩️ Sol</button>
+        <button class="editor-tool-btn" onclick="rotateRight()">Sağ ↪️</button>
+        <button id="scanFilterBtn" class="editor-tool-btn" onclick="toggleScanFilter()">📷 Tarama</button>
+    </div>
+</div>
+
+<div id="statsPage" class="hidden">
+    <header class="sub-header"><div class="sub-header-content container"><button class="back-link" onclick="closeStats()">← Geri</button><h2>İstatistikler</h2></div></header>
+    <div class="container"><div id="statsContent" class="stats-card card-container"></div></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
